@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Final Explanations</title>
+	<style>
+		table {
+			border-collapse: collapse;
+			margin: 20px;
+		}
+
+		td {
+			padding: 10px;
+			border: 1px solid black;
+			vertical-align: top;
+		}
+
+		img {
+			max-width: 100%;
+			display: block;
+			margin-bottom: 10px;
+		}
+        select {
+            display: inline-block;
+            margin-right: 10px;
+        }
+		img.partial-image {
+			max-width: 100%;
+			display: block;
+			margin-bottom: 10px;
+		}
+	</style>
+</head>
+<body>
+    <h1>Final Explanations</h1>
+	<script src="json.js"></script>
+	<script>
+		// Define the initial number of layers
+		const layerCount = 9;
+
+		function createTable(selectedClass, selectedImage, merge) {
+			table_data = data[selectedClass][selectedImage]
+			// Define the layers and images
+			const layers = [];
+			for (let i = 0; i < layerCount; i++) {
+				const layer = {
+					name: `block${Math.trunc(i/3)+3}_conv${i%3+1}`,
+					images: []
+				};
+				for (let j = 0; j < table_data[i][merge].length; j++) {
+					layer.images.push(table_data[i][merge][j]);
+				}
+				layers.push(layer);
+			}
+
+			// Create the table
+			const table = document.createElement('table');
+			const tr = document.createElement('tr');
+
+			// Create a column for each layer
+			layers.forEach(layer => {
+				const td = document.createElement('td');
+				td.innerHTML = `<h2 style="text-align: center;">${layer.name}</h2>`;
+				layer.images.forEach(image => {
+					const img = document.createElement('img');
+                    img.classList.add("clickable-image");
+					img.classList.add('partial-image');
+					img.src = image + "/preview.png";
+					td.appendChild(img);
+
+					const br = document.createElement('br');
+					td.appendChild(br);
+				});
+				tr.appendChild(td);
+			});
+
+			table.appendChild(tr);
+			document.getElementById('container').innerHTML = '';
+			document.getElementById('container').appendChild(table);
+
+            const clickableImages = document.querySelectorAll('.clickable-image');
+
+        clickableImages.forEach(image => {
+            image.addEventListener('click', () => {
+                const enlargedImage = document.createElement('img');
+                enlargedImage.src = image.src.replace('preview.png', 'main.png');
+                enlargedImage.alt = image.alt;
+                enlargedImage.style.maxWidth = '100%';
+                enlargedImage.style.height = '100%';
+                enlargedImage.style.display = 'block';
+                enlargedImage.style.margin = 'auto';
+
+                const overlay = document.createElement('div');
+                overlay.style.position = 'fixed';
+                overlay.style.top = 0;
+                overlay.style.left = 0;
+                overlay.style.width = '100%';
+                overlay.style.height = '100%';
+                overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+                overlay.style.display = 'flex';
+                overlay.style.alignItems = 'center';
+                overlay.style.justifyContent = 'center';
+
+                overlay.appendChild(enlargedImage);
+
+                document.body.appendChild(overlay);
+
+                overlay.addEventListener('click', () => {
+                overlay.remove();
+                });
+            });
+        });
+		}
+
+		function onClassSelected() {
+			// Get the selected value from the dropdown
+			const selectedClass = document.getElementById('class-select').value;
+			// Enable the element select
+			document.getElementById('element-select').disabled = false;
+			document.getElementById('merge-select').disabled = false;
+			// Update the options in the element select
+			const elementSelect = document.getElementById('element-select');
+			elementSelect.innerHTML = '';
+			for (let i = 1; i <= 5; i++) {
+				const option = document.createElement('option');
+				option.text = `${selectedClass} ${i}`;
+				option.value = i-1;
+				elementSelect.add(option);
+			}
+			createTable(selectedClass, 0, 1);
+		}
+
+		function onElementSelected() {
+			// Get the selected values from the dropdowns
+			const selectedClass = document.getElementById('class-select').value;
+			const selectedElement = document.getElementById('element-select').value;
+			const mergeElement = document.getElementById('merge-select').value;
+			// Rebuild the table
+			console.log(selectedClass)
+			console.log(selectedElement)
+			console.log(mergeElement)
+			createTable(selectedClass, selectedElement, mergeElement);
+		}
+	</script>
+
+	<div>
+		<label for="class-select">Class:</label>
+		<select id="class-select" onchange="onClassSelected()">
+			<option value="" disabled selected>-- Select a class --</option>
+			<option value="Gas Pump">Gas Pump</option>
+			<option value="Parachute">Parachute</option>
+			<option value="Cassette Player">Cassette Player</option>
+			<option value="Fish">Tench</option>
+			<option value="Golf Ball">Golf Ball</option>
+			<option value="Garbage Truck">Garbage Truck</option>
+			<option value="Church">Church</option>
+			<option value="Dog">English Springer</option>
+            <option value="Chainsaw">Chainsaw</option>
+			<option value="French Horn">French Horn</option>
+		</select>
+	
+	
+		<label for="element-select">Image:</label>
+		<select id="element-select" onchange="onElementSelected()" disabled>
+			<option value="">-- Select an image --</option>
+		</select>
+
+		<label for="merge-select">Merge Labels:</label>
+		<select id="merge-select" onchange="onElementSelected()" disabled>
+			<option value=1>Yes</option>
+			<option value=0>No</option>
+		</select>
+	</div>
+	<div id="container"></div>
+	<script>
+		// Create the initial table
+		createTable();
+	</script>
+</body>
+</html>
