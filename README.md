@@ -1,7 +1,7 @@
 # Interpretable Network Visualizations
 All results obtained in the paper [*M. Bianchi, A. De Santis, A. Tocchetti and M. Brambilla: Interpretable Network Visualizations: A Human-in-the-Loop Approach for Post-hoc Explainability of CNN-based Image Classification*](https://www.ijcai.org/proceedings/2024/411) are provided in this repository
 
-## Additional Resources
+## Additional Results
 In this folder we collected all images and visualizations for both global and local explanations for all classes used in the presented experiment.
 - For local explanations, we provide an HTML file to ease the visualization process. With such, it is possible to select the class, the image and whether to apply the label merging algorithm or not. Additionally, all compressed explanations (i.e., heatmap, score and the top 3 labels) can be clicked to access the expanded visualization about the cluster map.
 - For global explanations, we provide explanations by layer and by class in the form of png images.
