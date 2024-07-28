@@ -1,5 +1,5 @@
 # Interpretable Network Visualizations
-All results obtained in the paper [*M. Bianchi, A. De Santis, A. Tocchetti and M. Brambilla: Interpretable Network Visualizations: A Human-in-the-Loop Approach for Post-hoc Explainability of CNN-based Image Classification*](https://arxiv.org/abs/2405.03301) are provided in this repository
+All results obtained in the paper [*M. Bianchi, A. De Santis, A. Tocchetti and M. Brambilla: Interpretable Network Visualizations: A Human-in-the-Loop Approach for Post-hoc Explainability of CNN-based Image Classification*](https://www.ijcai.org/proceedings/2024/411) are provided in this repository
 
 ## Additional Resources
 In this folder we collected all images and visualizations for both global and local explanations for all classes used in the presented experiment.
